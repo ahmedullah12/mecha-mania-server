@@ -16,9 +16,11 @@ exports.ProductController = void 0;
 const Products_services_1 = require("./Products.services");
 const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
+const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const createProduct = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield Products_services_1.ProductServices.createProductIntoDB(req.body);
-    res.status(http_status_1.default.OK).json({
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
         success: true,
         message: 'Product Created Successfully!',
         data: result,
@@ -26,7 +28,8 @@ const createProduct = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
 }));
 const getAllProducts = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield Products_services_1.ProductServices.getAllProductsFromDB(req.query);
-    res.status(http_status_1.default.OK).json({
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
         success: true,
         message: 'Products Fetched Successfully!',
         data: result,
@@ -35,7 +38,8 @@ const getAllProducts = (0, catchAsync_1.default)((req, res) => __awaiter(void 0,
 const getSingleProduct = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const result = yield Products_services_1.ProductServices.getSingleProductFromDB(id);
-    res.status(http_status_1.default.OK).json({
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
         success: true,
         message: 'Product Fetched Successfully!',
         data: result,
@@ -44,7 +48,8 @@ const getSingleProduct = (0, catchAsync_1.default)((req, res) => __awaiter(void 
 const updateProduct = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const result = yield Products_services_1.ProductServices.updateProductIntoDB(id, req.body);
-    res.status(http_status_1.default.OK).json({
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
         success: true,
         message: 'Product Updated Successfully!',
         data: result,
@@ -54,5 +59,5 @@ exports.ProductController = {
     createProduct,
     getAllProducts,
     getSingleProduct,
-    updateProduct
+    updateProduct,
 };
