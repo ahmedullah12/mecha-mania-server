@@ -39,9 +39,14 @@ const updateProductIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, f
     });
     return result;
 });
+const deleteProductFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield Products_model_1.Product.findByIdAndDelete(id);
+    return result;
+});
 exports.ProductServices = {
     createProductIntoDB,
     getAllProductsFromDB,
     getSingleProductFromDB,
-    updateProductIntoDB
+    updateProductIntoDB,
+    deleteProductFromDB
 };

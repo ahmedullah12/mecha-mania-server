@@ -10,4 +10,5 @@ router.post('/create-product', (0, validateRequest_1.validateRequest)(Products_v
 router.get('/', Products_controller_1.ProductController.getAllProducts);
 router.get('/:id', Products_controller_1.ProductController.getSingleProduct);
 router.put('/:id', (0, validateRequest_1.validateRequest)(Products_validation_1.ProductValidations.updateProductSchemaValidation), Products_controller_1.ProductController.updateProduct);
+router.delete("/:id", Products_controller_1.ProductController.deleteProduct);
 exports.ProductRoutes = router;

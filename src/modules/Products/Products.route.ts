@@ -19,4 +19,6 @@ router.put(
   validateRequest(ProductValidations.updateProductSchemaValidation),
   ProductController.updateProduct,
 );
+
+router.delete("/:id", ProductController.deleteProduct);
 export const ProductRoutes = router;
