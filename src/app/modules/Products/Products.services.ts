@@ -1,4 +1,6 @@
+import httpStatus from 'http-status';
 import QueryBuilder from '../../builder/QueryBuilder';
+import AppError from '../../error/AppError';
 import { ProductsSearchableFields } from './Products.constant';
 import { TProduct } from './Products.interface';
 import { Product } from './Products.model';
@@ -20,12 +22,22 @@ const getAllProductsFromDB = async (query: Record<string, unknown>) => {
 };
 
 const getSingleProductFromDB = async (id: string) => {
+  const isProductExists = await Product.isProductExists(id);
+  if(!isProductExists){
+    throw new AppError(httpStatus.NOT_FOUND, "Product not found")
+  }
+
   const result = await Product.findById(id);
 
   return result;
 };
 
 const updateProductIntoDB = async (id: string, payload: Partial<TProduct>) => {
+  const isProductExists = await Product.isProductExists(id);
+  if(!isProductExists){
+    throw new AppError(httpStatus.NOT_FOUND, "Product not found")
+  }
+
   const result = await Product.findByIdAndUpdate(id, payload, {
     new: true,
     runValidators: true,
@@ -34,16 +46,21 @@ const updateProductIntoDB = async (id: string, payload: Partial<TProduct>) => {
   return result;
 };
 
-const deleteProductFromDB = async(id: string) => {
-    const result = await Product.findByIdAndDelete(id);
+const deleteProductFromDB = async (id: string) => {
+  const isProductExists = await Product.isProductExists(id);
+  if(!isProductExists){
+    throw new AppError(httpStatus.NOT_FOUND, "Product not found")
+  }
+  
+  const result = await Product.findByIdAndDelete(id);
 
-    return result;
-}
+  return result;
+};
 
 export const ProductServices = {
   createProductIntoDB,
   getAllProductsFromDB,
   getSingleProductFromDB,
   updateProductIntoDB,
-  deleteProductFromDB
+  deleteProductFromDB,
 };

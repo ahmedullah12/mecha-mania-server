@@ -37,13 +37,13 @@ class QueryBuilder<T> {
   }
 
   sort() {
-    const sort = (this?.query?.sort as string)?.split(',')?.join(' ') || '-createAt';
+    const sort =
+      (this?.query?.sort as string)?.split(',')?.join(' ') || '-createAt';
 
     this.modelQuery = this.modelQuery.sort(sort as string);
 
     return this;
   }
-};
-
+}
 
 export default QueryBuilder;
