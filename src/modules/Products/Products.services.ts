@@ -7,7 +7,12 @@ const createProductIntoDB = async(payload: TProduct) => {
     return result;
 };
 
+const getAllProducts = async() => {
+
+}
+
 
 export const ProductServices = {
-    createProductIntoDB
+    createProductIntoDB,
+    getAllProducts,
 }
