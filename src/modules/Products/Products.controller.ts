@@ -15,7 +15,7 @@ const createProduct = catchAsync(async (req, res) => {
 });
 
 const getAllProducts = catchAsync(async(req, res) => {
-  const result = await ProductServices.getAllProductsFromDb(req.query);
+  const result = await ProductServices.getAllProductsFromDB(req.query);
 
   res
     .status(httpStatus.OK)
@@ -24,9 +24,25 @@ const getAllProducts = catchAsync(async(req, res) => {
       message: 'Products Fetched Successfully!',
       data: result,
     });
-})
+});
+
+const getSingleProduct = catchAsync(async(req, res) => {
+  const {id} = req.params;
+  const result = await ProductServices.getSingleProductFromDB(id);
+
+  res
+    .status(httpStatus.OK)
+    .json({
+      success: true,
+      message: 'Product Fetched Successfully!',
+      data: result,
+    });
+});
+
+
 
 export const ProductController = {
   createProduct,
-  getAllProducts
+  getAllProducts,
+  getSingleProduct
 };
