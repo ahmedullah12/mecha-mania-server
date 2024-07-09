@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const routes_1 = __importDefault(require("./app/routes"));
 const globalErrorHandler_1 = __importDefault(require("./app/middlewares/globalErrorHandler"));
+const routeNotFound_1 = __importDefault(require("./app/middlewares/routeNotFound"));
 const app = (0, express_1.default)();
 //middlewares
 app.use(express_1.default.json());
@@ -16,4 +17,5 @@ app.get('/', (req, res) => {
     res.send('Server Running!');
 });
 app.use(globalErrorHandler_1.default);
+app.use(routeNotFound_1.default);
 exports.default = app;
