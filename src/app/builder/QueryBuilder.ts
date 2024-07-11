@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FilterQuery, Query } from 'mongoose';
 
 class QueryBuilder<T> {
@@ -10,7 +11,7 @@ class QueryBuilder<T> {
   }
 
   search(searchableFields: string[]) {
-    const searchTerm = this?.query?.searchTerm;
+    const searchTerm = this.query?.searchTerm as string;
     if (searchTerm) {
       this.modelQuery = this.modelQuery.find({
         $or: searchableFields.map(
@@ -25,23 +26,26 @@ class QueryBuilder<T> {
   }
 
   filter() {
-    const queryObj = { ...this.query };
-
-    const excludesFields = ['searchTerm', 'sort'];
-
+    const queryObj: Record<string, any> = { ...this.query };
+  
+    const excludesFields = ['searchTerm', 'sort', 'minPrice', 'maxPrice'];
     excludesFields.forEach((el) => delete queryObj[el]);
-
+  
+    if (this.query.minPrice || this.query.maxPrice) {
+      queryObj.price = {};
+      if (this.query.minPrice) queryObj.price.$gte = Number(this.query.minPrice);
+      if (this.query.maxPrice) queryObj.price.$lte = Number(this.query.maxPrice);
+    }
+  
     this.modelQuery = this.modelQuery.find(queryObj as FilterQuery<T>);
-
+  
     return this;
   }
+  
 
   sort() {
-    const sort =
-      (this?.query?.sort as string)?.split(',')?.join(' ') || '-createAt';
-
+    const sort = (this.query?.sort as string)?.split(',')?.join(' ') || '-createdAt';
     this.modelQuery = this.modelQuery.sort(sort as string);
-
     return this;
   }
 }
