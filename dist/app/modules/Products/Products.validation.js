@@ -6,6 +6,7 @@ const createProductSchemaValidation = zod_1.z.object({
     body: zod_1.z.object({
         title: zod_1.z.string(),
         brand: zod_1.z.string(),
+        description: zod_1.z.string(),
         price: zod_1.z.number(),
         quantity: zod_1.z.number(),
         rating: zod_1.z.number(),
@@ -16,6 +17,7 @@ const updateProductSchemaValidation = zod_1.z.object({
     body: zod_1.z.object({
         title: zod_1.z.string().optional(),
         brand: zod_1.z.string().optional(),
+        description: zod_1.z.string().optional(),
         price: zod_1.z.number().optional(),
         quantity: zod_1.z.number().optional(),
         rating: zod_1.z.number().optional(),

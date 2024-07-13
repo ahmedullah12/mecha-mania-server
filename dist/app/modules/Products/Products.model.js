@@ -21,6 +21,10 @@ const productSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
+    description: {
+        type: String,
+        required: true,
+    },
     price: {
         type: Number,
         required: true,
@@ -37,7 +41,9 @@ const productSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
-}, { timestamps: true });
+}, {
+    timestamps: true,
+});
 productSchema.statics.isProductExists = function (id) {
     return __awaiter(this, void 0, void 0, function* () {
         const product = yield exports.Product.findById(id);

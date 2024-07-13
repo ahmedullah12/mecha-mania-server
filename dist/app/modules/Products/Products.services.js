@@ -25,8 +25,7 @@ const createProductIntoDB = (payload) => __awaiter(void 0, void 0, void 0, funct
 const getAllProductsFromDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
     const courseQuery = new QueryBuilder_1.default(Products_model_1.Product.find(), query)
         .search(Products_constant_1.ProductsSearchableFields)
-        .filter()
-        .sort();
+        .filter();
     const result = yield courseQuery.modelQuery;
     return result;
 });

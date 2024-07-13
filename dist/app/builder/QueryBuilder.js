@@ -31,11 +31,5 @@ class QueryBuilder {
         this.modelQuery = this.modelQuery.find(queryObj);
         return this;
     }
-    sort() {
-        var _a, _b, _c;
-        const sort = ((_c = (_b = (_a = this.query) === null || _a === void 0 ? void 0 : _a.sort) === null || _b === void 0 ? void 0 : _b.split(',')) === null || _c === void 0 ? void 0 : _c.join(' ')) || '-createdAt';
-        this.modelQuery = this.modelQuery.sort(sort);
-        return this;
-    }
 }
 exports.default = QueryBuilder;
