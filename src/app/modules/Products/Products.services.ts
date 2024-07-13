@@ -14,8 +14,7 @@ const createProductIntoDB = async (payload: TProduct) => {
 const getAllProductsFromDB = async (query: Record<string, unknown>) => {
   const courseQuery = new QueryBuilder(Product.find(), query)
     .search(ProductsSearchableFields)
-    .filter()
-    .sort();
+    .filter();
 
   const result = await courseQuery.modelQuery;
   return result;

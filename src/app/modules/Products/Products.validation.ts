@@ -4,6 +4,7 @@ const createProductSchemaValidation = z.object({
   body: z.object({
     title: z.string(),
     brand: z.string(),
+    description: z.string(),
     price: z.number(),
     quantity: z.number(),
     rating: z.number(),
@@ -15,6 +16,7 @@ const updateProductSchemaValidation = z.object({
   body: z.object({
     title: z.string().optional(),
     brand: z.string().optional(),
+    description: z.string().optional(),
     price: z.number().optional(),
     quantity: z.number().optional(),
     rating: z.number().optional(),
