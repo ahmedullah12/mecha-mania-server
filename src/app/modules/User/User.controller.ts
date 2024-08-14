@@ -24,7 +24,29 @@ const createUser = catchAsync(async (req, res) => {
     }
   })
 });
+const loginUser = catchAsync(async (req, res) => {
+  const result = await UserServices.loginUser(req.body);
+  const { accessToken, refreshToken, user } = result;
+
+  res.cookie('refreshToken', refreshToken, {
+    secure: false,
+    httpOnly: true,
+    sameSite: true,
+    maxAge: 1000 * 60 * 60 * 24 * 365,
+  });
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User Logged In Successfully!!",
+    data: {
+        accessToken,
+        email: user?.email
+    }
+  })
+});
 
 export const UserController = {
   createUser,
+  loginUser
 };
