@@ -6,9 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const http_status_1 = __importDefault(require("http-status"));
 // if the route not found
 const routeNotFound = (req, res, next) => {
-    return res
-        .status(http_status_1.default.NOT_FOUND)
-        .json({
+    return res.status(http_status_1.default.NOT_FOUND).json({
         success: false,
         statusCode: http_status_1.default.NOT_FOUND,
         message: 'Not Found',

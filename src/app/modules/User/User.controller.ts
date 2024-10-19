@@ -1,52 +1,86 @@
 import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
-import { UserServices } from './User.service';
+import { Webhook } from 'svix';
+import config from '../../config';
+import AppError from '../../error/AppError';
+import { User } from './User.model';
 
-const createUser = catchAsync(async (req, res) => {
-  const result = await UserServices.createUser(req.body);
-  const { accessToken, refreshToken, user } = result;
 
-  res.cookie('refreshToken', refreshToken, {
-    secure: false,
-    httpOnly: true,
-    sameSite: true,
-    maxAge: 1000 * 60 * 60 * 24 * 365,
-  });
+const clerkWebhooks = catchAsync(async (req, res) => {
+  try {
+    const whook = new Webhook(config.clerk_webhook_secret as string);
 
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "Account Created Successfully!!",
-    data: {
-        accessToken,
-        email: user?.email
+    await whook.verify(JSON.stringify(req.body), {
+      'svix-id': req.headers['svix-id'] as string,
+      'svix-timestamp': req.headers['svix-timestamp'] as string,
+      'svix-signature': req.headers['svix-signature'] as string,
+    });
+
+    const { data, type } = req.body;
+
+    switch (type) {
+      case 'user.created': {
+        const userData = {
+          clerkId: data.id,
+          email: data.email_addresses[0].email_address,
+          firstName: data.first_name,
+          lastName: data.last_name,
+          photo: data.image_url,
+        };
+
+        await User.create(userData);
+
+        sendResponse(res, {
+          statusCode: httpStatus.OK,
+          success: true,
+          message: 'User created successfully',
+          data: {},
+        });
+
+        break;
+      }
+      case 'user.updated': {
+        const userData = {
+          email: data.email_addresses[0].email_address,
+          firstName: data.first_name,
+          lastName: data.last_name,
+          photo: data.image_url,
+        };
+
+        await User.findOneAndUpdate({ clerkId: data.id }, userData);
+
+        sendResponse(res, {
+          statusCode: httpStatus.OK,
+          success: true,
+          message: 'User updated successfully',
+          data: {},
+        });
+
+        break;
+      }
+      case 'user.deleted': {
+        await User.findOneAndDelete({ clerkId: data.id });
+
+        sendResponse(res, {
+          statusCode: httpStatus.OK,
+          success: true,
+          message: 'User deleted successfully',
+          data: {},
+        });
+
+        break;
+      }
+
+      default:
+        break;
     }
-  })
-});
-const loginUser = catchAsync(async (req, res) => {
-  const result = await UserServices.loginUser(req.body);
-  const { accessToken, refreshToken, user } = result;
-
-  res.cookie('refreshToken', refreshToken, {
-    secure: false,
-    httpOnly: true,
-    sameSite: true,
-    maxAge: 1000 * 60 * 60 * 24 * 365,
-  });
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "Logged In Successfully!!",
-    data: {
-        accessToken,
-        email: user?.email
-    }
-  })
+  } catch (err: any) {
+    console.log(err.message);
+    throw new AppError(httpStatus.BAD_REQUEST, 'Something went wrong.');
+  }
 });
 
 export const UserController = {
-  createUser,
-  loginUser
+  clerkWebhooks,
 };

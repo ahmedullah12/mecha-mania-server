@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { Model } from "mongoose";
+import { Model } from 'mongoose';
 
 export type TProduct = {
   title: string;
@@ -11,7 +11,6 @@ export type TProduct = {
   imageUrl: string;
 };
 
-
-export interface ProductModel extends Model<TProduct>{
+export interface ProductModel extends Model<TProduct> {
   isProductExists(id: string): Promise<TProduct | null>;
 }

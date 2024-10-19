@@ -11,7 +11,14 @@ const routeNotFound_1 = __importDefault(require("./app/middlewares/routeNotFound
 const app = (0, express_1.default)();
 //middlewares
 app.use(express_1.default.json());
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)({
+    origin: [
+        'http://localhost:5173',
+        'https://mecha-mania.netlify.app',
+        'https://mecha-mania.vercel.app',
+    ],
+    credentials: true,
+}));
 app.use('/api', routes_1.default);
 app.get('/', (req, res) => {
     res.send('Server Running!');

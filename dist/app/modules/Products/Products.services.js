@@ -32,7 +32,7 @@ const getAllProductsFromDB = (query) => __awaiter(void 0, void 0, void 0, functi
 const getSingleProductFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const isProductExists = yield Products_model_1.Product.isProductExists(id);
     if (!isProductExists) {
-        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Product not found");
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'Product not found');
     }
     const result = yield Products_model_1.Product.findById(id);
     return result;
@@ -40,7 +40,7 @@ const getSingleProductFromDB = (id) => __awaiter(void 0, void 0, void 0, functio
 const updateProductIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const isProductExists = yield Products_model_1.Product.isProductExists(id);
     if (!isProductExists) {
-        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Product not found");
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'Product not found');
     }
     const result = yield Products_model_1.Product.findByIdAndUpdate(id, payload, {
         new: true,
@@ -51,7 +51,7 @@ const updateProductIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, f
 const deleteProductFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const isProductExists = yield Products_model_1.Product.isProductExists(id);
     if (!isProductExists) {
-        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Product not found");
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'Product not found');
     }
     const result = yield Products_model_1.Product.findByIdAndDelete(id);
     return result;

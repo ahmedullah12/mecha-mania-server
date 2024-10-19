@@ -22,8 +22,8 @@ const getAllProductsFromDB = async (query: Record<string, unknown>) => {
 
 const getSingleProductFromDB = async (id: string) => {
   const isProductExists = await Product.isProductExists(id);
-  if(!isProductExists){
-    throw new AppError(httpStatus.NOT_FOUND, "Product not found")
+  if (!isProductExists) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Product not found');
   }
 
   const result = await Product.findById(id);
@@ -33,8 +33,8 @@ const getSingleProductFromDB = async (id: string) => {
 
 const updateProductIntoDB = async (id: string, payload: Partial<TProduct>) => {
   const isProductExists = await Product.isProductExists(id);
-  if(!isProductExists){
-    throw new AppError(httpStatus.NOT_FOUND, "Product not found")
+  if (!isProductExists) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Product not found');
   }
 
   const result = await Product.findByIdAndUpdate(id, payload, {
@@ -47,10 +47,10 @@ const updateProductIntoDB = async (id: string, payload: Partial<TProduct>) => {
 
 const deleteProductFromDB = async (id: string) => {
   const isProductExists = await Product.isProductExists(id);
-  if(!isProductExists){
-    throw new AppError(httpStatus.NOT_FOUND, "Product not found")
+  if (!isProductExists) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Product not found');
   }
-  
+
   const result = await Product.findByIdAndDelete(id);
 
   return result;

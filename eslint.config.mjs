@@ -29,6 +29,7 @@ export default [
       "prefer-const": "error",
       "no-console": "warn",
       "no-undef": "error",
+      "no-explicit-any": "warn"
     },
   },
   prettierConfig,
