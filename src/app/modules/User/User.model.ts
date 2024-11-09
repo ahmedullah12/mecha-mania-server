@@ -24,6 +24,9 @@ const userSchema = new Schema<TUser>(
     photo: {
       type: String,
     },
+    role: {
+      type: String,
+    }
   },
   { timestamps: true },
 );

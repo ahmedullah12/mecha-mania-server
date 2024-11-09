@@ -4,4 +4,5 @@ export type TUser = {
   lastName: string;
   email: string;
   photo: string;
+  role: string;
 };
